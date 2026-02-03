@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Life of Shlok & Sanchi 🍔❤️</title>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300;500&display=swap" rel="stylesheet">
+
+<style>
+body{
+  margin:0;
+  font-family:'Poppins',sans-serif;
+  background:linear-gradient(135deg,#ffd1dc,#ffe6f0);
+  overflow:hidden;
+}
+.page{
+  position:absolute;
+  top:0; left:0;
+  width:100%;
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  opacity:0;
+  pointer-events:none;
+  transition:1s;
+}
+.page.active{
+  opacity:1;
+  pointer-events:auto;
+}
+
+.card{
+  background:rgba(255,255,255,0.6);
+  backdrop-filter:blur(10px);
+  padding:30px;
+  border-radius:20px;
+  text-align:center;
+  box-shadow:0 0 30px rgba(255,0,120,0.3);
+  width:320px;
+}
+h1{
+  font-family:'Pacifico',cursive;
+  color:#ff3f8b;
+}
+button{
+  margin-top:15px;
+  padding:10px 22px;
+  border:none;
+  border-radius:25px;
+  background:#ff3f8b;
+  color:white;
+  cursor:pointer;
+}
+
+.food{
+  position:absolute;
+  font-size:22px;
+  animation:fall 6s linear infinite;
+}
+@keyframes fall{
+  from{top:-10vh;}
+  to{top:110vh;}
+}
+
+/* polaroids */
+.polaroids{display:flex; gap:10px; justify-content:center;}
+.polaroid{
+  background:white;
+  padding:8px 8px 20px;
+  width:90px;
+  box-shadow:0 5px 10px rgba(0,0,0,0.2);
+  position:relative;
+}
+
+.polaroid:nth-child(1),
+.polaroid:nth-child(2){
+  width:160px;
+}
+.polaroid img{width:100%;}
+.sticker{position:absolute; top:-8px; right:-8px;}
+
+.side{display:flex; gap:15px; justify-content:center;}
+.side img{width:120px; border-radius:10px;}
+.timer{margin-top:15px;}
+</style>
+</head>
+
+<body>
+
+<!-- PAGE 1 -->
+<div class="page active" id="p1">
+  <div class="card">
+    <h1>Heyyy!! Myyy Loveee 💕</h1>
+    <p>You are the bestest and I am the stupidest.</p>
+    <button onclick="go(2)">Click Me 💌</button>
+  </div>
+</div>
+
+<!-- PAGE 2 -->
+<div class="page" id="p2">
+  <div class="card">
+    <h1>Constant Rules 🍟</h1>
+    <p id="quote"></p>
+    <button onclick="nextQuote()">Next</button>
+  </div>
+</div>
+
+<!-- PAGE 3 -->
+<div class="page" id="p3">
+  <div class="card">
+    <h1>Menu for life🍴</h1>
+    <p><b>Starters:</b> Flirtation, Admiration, Goofiness, Attraction</p>
+    <p><b>Main Course:</b> Trust, Commitment, Vulnerability, Resilience</p>
+    <p><b>Desserts:</b> Intimacy, Laughter, Gratitude, Nostalgia</p>
+    <button onclick="go(4)">Next</button>
+  </div>
+</div>
+
+<!-- PAGE 4 -->
+<div class="page" id="p4">
+  <div class="card">
+    <h1>Some of my favourite photos of us ❤️
+</h1>
+    <div class="polaroids">
+      <div class="polaroid"><img src="photo1.jpeg"><div class="sticker">💓</div></div>
+      <div class="polaroid"><img src="photo2.jpeg"><div class="sticker">❤️‍🩹</div></div>
+      <div class="polaroid"><img src="photo3.jpeg"><div class="sticker">🥰</div></div>
+    </div>
+    <p>Love creating memories with you</p>
+    <button onclick="go(5)">Next</button>
+  </div>
+</div>
+
+<!-- PAGE 5 -->
+<div class="page" id="p5">
+  <div class="card">
+    <h1>Annoying you since 🫶</h1>
+    <div class="side">
+      <div><img src="start.jpeg"><br>2022</div>
+      <div><img src="end.jpeg"><br>2026</div>
+    </div>
+    <div class="timer" id="timer"></div>
+  </div>
+</div>
+
+<script>
+let pages=document.querySelectorAll(".page");
+function go(n){
+  pages.forEach(p=>p.classList.remove("active"));
+  document.getElementById("p"+n).classList.add("active");
+}
+
+const quotes=[
+"1] I will always know your taco bell and subway order 🌮🥪",
+"2] You can always eat my fries without asking 🍟",
+"3] Yess, we will always have space for dessert 🍰",
+"4] You're my favourite side dish 💛"
+];
+let qi=0;
+function nextQuote(){
+  document.getElementById("quote").innerHTML=quotes[qi];
+  qi++;
+  if(qi>=quotes.length) go(3);
+}
+
+const foods=["🍕","🍔","🍟","🌮","🥐","🍩"];
+function createFood(){
+  if(!document.getElementById("p2").classList.contains("active")) return;
+  let f=document.createElement("div");
+  f.className="food";
+  f.innerHTML=foods[Math.floor(Math.random()*foods.length)];
+  f.style.left=Math.random()*100+"vw";
+  document.body.appendChild(f);
+  setTimeout(()=>f.remove(),6000);
+}
+setInterval(createFood,350);
+
+const startDate=new Date("2022-07-29");
+function updateTimer(){
+  let now=new Date();
+  let diff=now-startDate;
+  let days=Math.floor(diff/(1000*60*60*24));
+  let hrs=Math.floor((diff/(1000*60*60))%24);
+  let mins=Math.floor((diff/(1000*60))%60);
+  let secs=Math.floor((diff/1000)%60);
+  document.getElementById("timer").innerHTML=
+  `${days} days, ${hrs} hrs, ${mins} mins, ${secs} secs together ❤️`;
+}
+setInterval(updateTimer,1000);
+updateTimer();
+</script>
+
+</body>
+</html>
